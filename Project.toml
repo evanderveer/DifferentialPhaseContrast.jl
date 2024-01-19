@@ -1,0 +1,13 @@
+name = "CTFFT"
+uuid = "4f2186bb-3a2c-44f0-a062-04c6d4d3fd0d"
+authors = ["Ewout van der veer"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
