@@ -21,7 +21,7 @@ function fft_cooley(
     check_image(vectors)
     height, width = size(vectors)
 
-    intermediate_vectors = fft_cooley_recursion(vectors, height, 1, (0, 0))
+    intermediate_vectors = fft_cooley_recursion(vectors, height, 1, (1, 1))
     output = similar(vectors)
 
     num = height / 2
@@ -41,7 +41,33 @@ function fft_cooley_recursion(
     delta::Int,
     shifts::Tuple{Int, Int}
 )
+    if N == 1; return vectors[shifts...]; end;
+    
+    N1 = Int(N / 2)
 
+    fft_intermediates = []
+    for extra_shift in [(0, 0), (0, delta), (delta, 0), (delta, delta)]
+        push!(fft_intermediates, fft_cooley_recursion(vectors, N1, 2*delta, shifts .+ extra_shift))
+    end
+
+
+    output = similar(vectors)
+
+    for pow1 in 1:N1
+    for pow2 in 1:N1
+        current_intermediates = getindex.(fft_intermediates, pow1, pow2)
+        current_intermediates[2] *= omega_forward(N, pow2)
+        current_intermediates[3] *= omega_forward(N, pow1)
+        current_intermediates[4] *= omega_forward(N, pow1 + pow2)
+
+        output[pow1, pow2] = sum(current_intermediates)
+        output[pow1, pow2 + N1] = sum(current_intermediates .* [1,-1,1,-1])
+        output[pow1 + N1, pow2] = sum(current_intermediates .* [1,1,-1,-1])
+        output[pow1 + N1, pow2 + N1] = sum(current_intermediates .* [1,-1,-1,1])
+    end
+    end
+    
+    output
 end
 
 function omega_forward(
