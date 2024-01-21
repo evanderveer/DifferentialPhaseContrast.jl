@@ -1,6 +1,10 @@
-using CTFFT
+import iDPC
 using Test
+using Random
+using Images
+using DelimitedFiles
 
-@testset "CTFFT.jl" begin
-    # Write your tests here.
+@testset "iDPC.jl" begin
+    include("./idpc.jl")
+
 end
