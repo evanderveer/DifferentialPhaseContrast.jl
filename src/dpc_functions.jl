@@ -3,11 +3,10 @@ const IM2PI = Complex(0, 2*π)
 real_image(pixels::Matrix{<:Complex}) = real.(pixels)
 imaginary_image(pixels::Matrix{<:Complex}) = imag.(pixels)
 
-
 function dpc(
     images::Vararg{<:Matrix{<:Real}, 4};
     order::Vector = [1, 2, 3, 4]
-)
+    )
     check_images(images...)
 
     image_x = images[order[1]] .- images[order[3]]
@@ -37,14 +36,14 @@ end
 
 function normalize_image(
     image::Matrix{<:Real}
-)
+    )
     image_shifted = image .- minimum(image)
     image_shifted ./ maximum(image_shifted)
 end
 
 function check_images(
     images::Vararg{T}
-) where T<:Matrix
+    ) where T<:Matrix
 
     if any(x -> size(x) != size(images[1]), images)
         throw(ArgumentError("all images must be the same size"))
@@ -61,7 +60,7 @@ end
 function make_vector_image(
     image_y::Matrix{T},
     image_x::Matrix{T}
-) where T<:Complex
+    ) where T<:Complex
     check_images(image_y, image_x)
 
     vectors = Matrix{Vector{T}}(undef, size(image_x)...)
@@ -112,7 +111,7 @@ end
 function scalar_multiply(
     vector1::Vector{<:Union{<:Real, <:Complex}},
     vector2::Vector{<:Union{<:Real, <:Complex}}
-)
+    )
     vector1 = Complex.(vector1)
     vector2 = Complex.(vector2)
     vector1[1]*conj(vector2[1]) + vector1[2]*vector2[2]
