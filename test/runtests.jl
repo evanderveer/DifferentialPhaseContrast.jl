@@ -1,10 +1,9 @@
-import iDPC
+import DifferentialPhaseContrast
 using Test
 using Random
-using Images
 using DelimitedFiles
 
-@testset "iDPC.jl" begin
-    include("./idpc.jl")
+@testset "DifferentialPhaseContrast.jl" begin
+    include("./dpc.jl")
 
 end

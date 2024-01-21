@@ -4,7 +4,7 @@ real_image(pixels::Matrix{<:Complex}) = real.(pixels)
 imaginary_image(pixels::Matrix{<:Complex}) = imag.(pixels)
 
 
-function idpc(
+function dpc(
     images::Vararg{<:Matrix{<:Real}, 4};
     order::Vector = [1, 2, 3, 4]
 )
@@ -25,7 +25,14 @@ function idpc(
            real_image |> 
            normalize_image
 
-    return idpc
+    ddpc = vector_image |> 
+           differentiate_vectors |> 
+           ifftshift |> 
+           ifft |> 
+           real_image |> 
+           normalize_image
+
+    (idpc, ddpc)
 end
 
 function normalize_image(
@@ -79,6 +86,24 @@ function integrate_vectors(
             output[index] = zero(Complex)
         else
             output[index] = scalar_multiply(vectors[index], [f1, f2]) / (IM2PI*(f1^2 + f2^2))
+        end
+    end
+    output
+end
+
+function differentiate_vectors(
+    vectors::Matrix{<:Vector{<:Complex}}
+    )
+    height, width = size(vectors)
+    output = Matrix{ComplexF64}(undef, height, width)
+
+    for index in CartesianIndices(output)
+        f1 = height/2 - Tuple(index)[1]
+        f2 = Tuple(index)[2] - width/2
+        if f1 == f2 == 0
+            output[index] = zero(Complex)
+        else
+            output[index] = scalar_multiply(vectors[index], [f1, f2]) * IM2PI
         end
     end
     output
