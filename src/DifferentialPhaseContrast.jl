@@ -2,7 +2,7 @@ module DifferentialPhaseContrast
 
 using FFTW
 
-export idpc
+export dpc
 
 include("dpc_functions.jl")
 

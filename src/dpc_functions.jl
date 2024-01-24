@@ -48,13 +48,16 @@ function check_images(
     if any(x -> size(x) != size(images[1]), images)
         throw(ArgumentError("all images must be the same size"))
     end
+
+    
+    """
     height, width = size(images[1])
     if width != height
         throw(ArgumentError("image width and height are not the same"))
     end
     if !ispow2(width)
         throw(ArgumentError("image size must be a power of 2")) 
-    end
+    end"""
 end
 
 function make_vector_image(
