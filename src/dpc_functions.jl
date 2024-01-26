@@ -35,8 +35,11 @@ function dpc(
 end
 
 function normalize_image(
-    image::Matrix{<:Real}
+    image::AbstractMatrix{<:Real}
     )
+    if any(size(image) .< 2)
+        throw(ArgumentError("image size must be > 1"))
+    end
     image_shifted = image .- minimum(image)
     image_shifted ./ maximum(image_shifted)
 end

@@ -43,7 +43,7 @@
 
         # Test case 4: Normalizing an empty image
         img4 = zeros(0, 0)
-        @test_throws MethodError DifferentialPhaseContrast.normalize_image(img4)
+        @test_throws ArgumentError DifferentialPhaseContrast.normalize_image(img4)
     end
 
     @testset "check_images" begin
