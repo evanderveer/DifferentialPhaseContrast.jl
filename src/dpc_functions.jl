@@ -4,7 +4,7 @@ real_image(pixels::Matrix{<:Complex}) = real.(pixels)
 imaginary_image(pixels::Matrix{<:Complex}) = imag.(pixels)
 
 function dpc(
-    images::Vararg{<:Matrix{<:Real}, 4};
+    images::Vararg{AbstractMatrix{<:Real}, 4};
     order::Vector = [1, 2, 3, 4]
     )
     check_images(images...)
@@ -48,16 +48,6 @@ function check_images(
     if any(x -> size(x) != size(images[1]), images)
         throw(ArgumentError("all images must be the same size"))
     end
-
-    
-    """
-    height, width = size(images[1])
-    if width != height
-        throw(ArgumentError("image width and height are not the same"))
-    end
-    if !ispow2(width)
-        throw(ArgumentError("image size must be a power of 2")) 
-    end"""
 end
 
 function make_vector_image(
@@ -117,6 +107,6 @@ function scalar_multiply(
     )
     vector1 = Complex.(vector1)
     vector2 = Complex.(vector2)
-    vector1[1]*conj(vector2[1]) + vector1[2]*vector2[2]
+    sum(vector1 .* conj.(vector2))
 end
 
