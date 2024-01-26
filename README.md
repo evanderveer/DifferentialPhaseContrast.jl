@@ -2,6 +2,8 @@
 
 [![Build Status](https://github.com/evanderveer/CTFFT.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/evanderveer/CTFFT.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
+[![codecov](https://codecov.io/gh/evanderveer/DifferentialPhaseContrast.jl/graph/badge.svg?token=TH59ZWLKTI)](https://codecov.io/gh/evanderveer/DifferentialPhaseContrast.jl)
+
 DifferentialPhaseContrast.jl provides functions for calculating integrated and differentiated differential phase contrast scanning transmission electron microscopy (iDPC-STEM) images from data from a four-segment annular dark field detector. 
 
 ### Example
