@@ -88,11 +88,55 @@
     end
 
     @testset "integrate_vectors" begin
-        
+        A = zeros(ComplexF64, 2, 2)
+        B = zeros(ComplexF64, 2, 2)
+        C = DifferentialPhaseContrast.make_vector_image(A, B)
+
+        @test DifferentialPhaseContrast.integrate_vectors(C) == zeros(ComplexF64, 2, 2)
+
+        A = ones(ComplexF64, 2, 2)
+        B = ones(ComplexF64, 2, 2)
+        C = DifferentialPhaseContrast.make_vector_image(A, B)
+
+        @test isapprox(DifferentialPhaseContrast.integrate_vectors(C), [0.0+0.0im 0.0-0.159155im; 0.0+0.159155im  0.0-0.0im]) atol=0.00001
+
+        A = ones(ComplexF64, 1, 1)
+        B = ones(ComplexF64, 1, 1)
+        C = DifferentialPhaseContrast.make_vector_image(A, B)
+
+        @test DifferentialPhaseContrast.integrate_vectors(C) == zeros(ComplexF64, 1, 1)
+
+        A = ones(ComplexF64, 2, 2)
+        B = zeros(ComplexF64, 2, 2)
+        C = DifferentialPhaseContrast.make_vector_image(A, B)
+
+        @test isapprox(DifferentialPhaseContrast.integrate_vectors(C), [0.0+0.0im 0.0-0.0im; 0.0+0.159155im 0.0+0.0795775im]) atol=0.00001
     end
 
     @testset "differentiate_vectors" begin
-        
+        A = zeros(ComplexF64, 2, 2)
+        B = zeros(ComplexF64, 2, 2)
+        C = DifferentialPhaseContrast.make_vector_image(A, B)
+
+        @test DifferentialPhaseContrast.differentiate_vectors(C) == zeros(ComplexF64, 2, 2)
+
+        A = ones(ComplexF64, 2, 2)
+        B = ones(ComplexF64, 2, 2)
+        C = DifferentialPhaseContrast.make_vector_image(A, B)
+
+        @test isapprox(DifferentialPhaseContrast.differentiate_vectors(C), [0.0+0.0im 0.0+6.28319im; 0.0-6.28319im  0.0-0.0im]) atol=0.00001
+
+        A = ones(ComplexF64, 1, 1)
+        B = ones(ComplexF64, 1, 1)
+        C = DifferentialPhaseContrast.make_vector_image(A, B)
+
+        @test DifferentialPhaseContrast.differentiate_vectors(C) == zeros(ComplexF64, 1, 1)
+
+        A = ones(ComplexF64, 2, 2)
+        B = zeros(ComplexF64, 2, 2)
+        C = DifferentialPhaseContrast.make_vector_image(A, B)
+
+        @test isapprox(DifferentialPhaseContrast.differentiate_vectors(C), [0.0+0.0im 0.0-0.0im; 0.0-6.28319im 0.0-6.28319im]) atol=0.00001
     end
 
     @testset "scalar_multiply" begin
