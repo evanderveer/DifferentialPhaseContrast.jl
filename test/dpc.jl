@@ -162,7 +162,7 @@
     end
 end
 
-@testset "integration" begin
+@testset "integration_four_images" begin
     
     A = readdlm("./images/A.dat") .|> Float64
     B = readdlm("./images/B.dat") .|> Float64
@@ -170,6 +170,20 @@ end
     D = readdlm("./images/D.dat") .|> Float64
 
     idpc, ddpc = DifferentialPhaseContrast.dpc(A,B,C,D)
+
+    idpc_test = readdlm("./images/idpc.dat") .|> Float64
+    ddpc_test = readdlm("./images/ddpc.dat") .|> Float64
+
+    @test all(idpc .≈ idpc_test)
+    @test all(ddpc .≈ ddpc_test)
+end
+
+@testset "integration_two_images" begin
+    
+    AC = readdlm("./images/A-C.dat") .|> Float64
+    BD = readdlm("./images/B-D.dat") .|> Float64
+
+    idpc, ddpc = DifferentialPhaseContrast.dpc(AC, BD)
 
     idpc_test = readdlm("./images/idpc.dat") .|> Float64
     ddpc_test = readdlm("./images/ddpc.dat") .|> Float64

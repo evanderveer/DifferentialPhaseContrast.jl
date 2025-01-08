@@ -34,6 +34,37 @@ function dpc(
     (idpc, ddpc)
 end
 
+function dpc(
+    images::Vararg{AbstractMatrix{<:Real}, 2};
+    order::Vector = [1, 2]
+    )
+    check_images(images...)
+
+    image_x = images[order[1]]
+    image_y = images[order[2]]
+
+    fft_image_x = image_x |> fft |> fftshift
+    fft_image_y = image_y |> fft |> fftshift
+
+    vector_image = make_vector_image(fft_image_y, fft_image_x)
+
+    idpc = vector_image |> 
+           integrate_vectors |> 
+           ifftshift |> 
+           ifft |> 
+           real_image |> 
+           normalize_image
+
+    ddpc = vector_image |> 
+           differentiate_vectors |> 
+           ifftshift |> 
+           ifft |> 
+           real_image |> 
+           normalize_image
+
+    (idpc, ddpc)
+end
+
 function normalize_image(
     image::AbstractMatrix{<:Real}
     )
